@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886596742928",
+    "project_id": "taskapp-willsoar",
+    "storage_bucket": "taskapp-willsoar.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886596742928:android:fbd4af91d9c891ab413f95",
+        "android_client_info": {
+          "package_name": "com.example.taskmanagement_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwCpKvUyXAGv13TX9fDP_14Czsyc_Y8P4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
