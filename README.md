@@ -1,16 +1,35 @@
-# taskmanagement_firebase
+# Flutter Task Management App
 
-A new Flutter project.
 
-## Getting Started
+## Objective
 
-This project is a starting point for a Flutter application.
+The goal of this project is to develop a **Task Management Application** using **Flutter** and **Firebase**. The application will showcase skills in state management, persistent login, CRUD operations.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Features : 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 1. User Authentication (Firebase Authentication)
+- **Login/Sign-Up**:
+  - Users can log in or sign up using email and password.
+  - Implements persistent login to retain the user's session even after restarting the app.
+- **Auto-Redirect**:
+  - If already logged in, the user will be directed to the Task Management page without displaying the login screen.
+  - 
+### 2. Task Management (Firebase Firestore & Firebase Storage)
+- **Task Display**:
+  - Tasks are displayed as cards:
+  - Task Fields:-
+  - Task Title
+  - Task Description
+  - Task Status (Pending/Completed)
+  - Created Timestamp
+  - 
+**Task Actions**:
+  - Add new tasks. 
+  - Edit task details.
+  - Delete a task.
+  - Mark tasks as completed/incomplete.
+ 
+### 3. State Management
+  - Used **Provider** state management.
+ 
