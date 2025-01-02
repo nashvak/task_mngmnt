@@ -51,7 +51,10 @@ class SignupPage extends StatelessWidget {
                   height: 25,
                 ),
                 CustomButton(
-                  text: 'Register',
+                  text: Text(
+                    'Register',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
                   ontap: () async {
                     if (formKey.currentState!.validate()) {
                       if (passwordController.text ==

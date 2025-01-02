@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmanagement_firebase/Views/Auth/errorpage.dart';
@@ -35,7 +34,7 @@ class AppRoutes {
     errorBuilder: (context, state) => ErrorPage(),
     redirect: (context, state) {
       final authProvider = Provider.of<AuthService>(context, listen: false);
-      final isAuthenticated = authProvider.isAuthenticated;
+      // final isAuthenticated = authProvider.isAuthenticated;
       // if (isAuthenticated) {
       //   if (state.fullPath == AppRoutes.login ||
       //       state.fullPath == AppRoutes.signup) {
@@ -48,8 +47,8 @@ class AppRoutes {
       //   }
       // }
       // return null;
-      if (isAuthenticated == false) return AppRoutes.login;
-      return null;
+      // if (isAuthenticated == false) return AppRoutes.login;
+      // return null;
     },
   );
 }

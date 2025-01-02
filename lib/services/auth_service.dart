@@ -6,11 +6,11 @@ class AuthService with ChangeNotifier {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  User? _user;
+  // User? _user;
 
-  User? get user => _user;
+  // User? get user => _user;
 
-  bool get isAuthenticated => _user != null;
+  // bool get isAuthenticated => _user != null;
 
   // authProvider() {
   //   firebaseAuth.authStateChanges().listen((User? user) {

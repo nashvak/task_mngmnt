@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:taskmanagement_firebase/services/data_provider.dart';
+import 'package:taskmanagement_firebase/widgets/custom_button.dart';
 import 'package:taskmanagement_firebase/widgets/custom_textfield.dart';
 
 class AddDataScreen extends StatefulWidget {
@@ -16,44 +15,57 @@ class _AddDataScreenState extends State<AddDataScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController discriptionController = TextEditingController();
   bool isCompleted = false;
+  final addformKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Data"),
+        title: const Text("Add Data"),
       ),
-      body: Column(
-        children: [
-          CustomTextfield(
-              text: "Title", controller: nameController, obscure: false),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextfield(
-              text: "Discription",
+      body: Form(
+        key: addformKey,
+        child: Column(
+          children: [
+            CustomTextfield(
+                text: "Title", controller: nameController, obscure: false),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomTextfield(
+              text: "Description",
               controller: discriptionController,
-              obscure: false),
-          Consumer<DataProvider>(builder: (context, provider, _) {
-            return ElevatedButton(
-                onPressed: () async {
-                  await provider
-                      .addData(Task(
-                          name: nameController.text,
-                          discription: discriptionController.text,
-                          isCompleted: false))
-                      .then((v) {
-                    nameController.clear();
-                    discriptionController.clear();
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Data Added")));
-                  });
-                },
-                child: provider.addDataLoading
-                    ? CircularProgressIndicator()
-                    : Text("Add Data"));
-          })
-        ],
+              obscure: false,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Consumer<DataProvider>(builder: (context, provider, _) {
+              return CustomButton(
+                  ontap: () async {
+                    if (addformKey.currentState!.validate()) {
+                      await provider
+                          .addData(
+                        title: nameController.text.trim(),
+                        desc: discriptionController.text.trim(),
+                      )
+                          .then((v) {
+                        nameController.clear();
+                        discriptionController.clear();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Task Added")));
+                      });
+                    }
+                  },
+                  text: provider.addDataLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          "Add Data",
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ));
+            })
+          ],
+        ),
       ),
     );
   }

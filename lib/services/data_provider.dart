@@ -1,44 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
+import 'package:taskmanagement_firebase/model/task_model.dart';
 
 class DataProvider extends ChangeNotifier {
   bool addDataLoading = false;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final Uuid _uuid = Uuid();
 
-  Future<void> addData(Task task) async {
+  Future<void> addData({required String title, required String desc}) async {
     addDataLoading = true;
     notifyListeners();
     try {
-      String taskId = _uuid.v4();
+      // String taskId = _uuid.v4();
       final data = {
-        "title": task.name,
-        "description": task.discription,
-        "isCompleted": task.isCompleted,
-        'taskId': taskId,
+        "title": title,
+        "description": desc,
+        "isCompleted": false,
         'createdAt': FieldValue.serverTimestamp(),
         "userId": FirebaseAuth.instance.currentUser?.uid.toString()
       };
-      await _firestore.collection("Tasks").add(data);
+      DocumentReference taskRef =
+          await _firestore.collection("Tasks").add(data);
+      await taskRef.update({'taskId': taskRef.id});
       addDataLoading = false;
       notifyListeners();
     } catch (e) {
       throw Exception('Failed to add data: $e');
     }
   }
-}
 
-class Task {
-  final String name;
-  final String discription;
-  final bool isCompleted;
+  Future<void> deleteTask({required String docId}) async {
+    try {
+      await _firestore.collection('Tasks').doc(docId).delete();
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Failed to delete data: $e');
+    }
+  }
 
-  Task(
-      {required this.name,
-      required this.discription,
-      required this.isCompleted});
+  Future<void> updateTask(Task task) async {
+    try {
+      await _firestore.collection('Tasks').doc(task.taskId).update({
+        'title': task.title,
+        'description': task.discription,
+        'isCompleted': task.isCompleted,
+      });
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Failed to add data: $e');
+    }
+  }
 }

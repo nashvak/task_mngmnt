@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmanagement_firebase/Views/Auth/login_page.dart';
 import 'package:taskmanagement_firebase/Views/splash.dart';
 import 'package:taskmanagement_firebase/services/auth_service.dart';
 import 'package:taskmanagement_firebase/services/data_provider.dart';
 
 import 'firebase_options.dart';
-
-import 'package:taskmanagement_firebase/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       // routerConfig: AppRoutes.router,
       debugShowCheckedModeBanner: true,
       title: 'Task management',

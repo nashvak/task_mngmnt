@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
+  final Widget text;
   final void Function()? ontap;
+
   const CustomButton({super.key, required this.text, this.ontap});
 
   @override
@@ -15,10 +16,11 @@ class CustomButton extends StatelessWidget {
             color: Colors.orange, borderRadius: BorderRadius.circular(8)),
         padding: EdgeInsets.all(15),
         child: Center(
-          child: Text(
-            text,
-            style: TextStyle(color: Colors.white, fontSize: 25),
-          ),
+          child: text,
+          // child: loading? CircularProgressIndicator():Text(
+          //   text,
+          // style: TextStyle(color: Colors.white, fontSize: 25),
+          // ),
         ),
       ),
     );
