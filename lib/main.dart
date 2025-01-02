@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:taskmanagement_firebase/Views/Auth/login_page.dart';
+import 'package:taskmanagement_firebase/Views/splash.dart';
 import 'package:taskmanagement_firebase/services/auth_service.dart';
+import 'package:taskmanagement_firebase/services/data_provider.dart';
 
 import 'firebase_options.dart';
 
@@ -16,6 +19,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthService>(create: (_) => AuthService()),
+        ChangeNotifierProvider<DataProvider>(create: (_) => DataProvider()),
       ],
       child: const MyApp(),
     ),
@@ -27,10 +31,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: AppRoutes.router,
+    return MaterialApp(
+      // routerConfig: AppRoutes.router,
       debugShowCheckedModeBanner: true,
       title: 'Task management',
+      home: SplashScreen(),
     );
   }
 }

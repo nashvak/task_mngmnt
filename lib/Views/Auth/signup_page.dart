@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmanagement_firebase/router/app_router.dart';
+import 'package:taskmanagement_firebase/Views/Auth/homepage.dart';
+import 'package:taskmanagement_firebase/Views/Auth/login_page.dart';
 import 'package:taskmanagement_firebase/services/auth_service.dart';
 import 'package:taskmanagement_firebase/widgets/custom_button.dart';
 import 'package:taskmanagement_firebase/widgets/custom_textfield.dart';
@@ -61,6 +61,11 @@ class SignupPage extends StatelessWidget {
                                 emailController.text,
                                 passwordController.text,
                               );
+                          // context.go(AppRoutes.home);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(e.toString())),
@@ -81,7 +86,13 @@ class SignupPage extends StatelessWidget {
                   children: [
                     const Text("Already have an account? "),
                     GestureDetector(
-                      onTap: () => context.go(AppRoutes.login),
+                      // onTap: () => context.go(AppRoutes.login),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      },
                       child: const Text(
                         "Login now",
                         style: TextStyle(fontWeight: FontWeight.bold),

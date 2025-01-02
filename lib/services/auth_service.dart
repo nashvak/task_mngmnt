@@ -12,41 +12,48 @@ class AuthService with ChangeNotifier {
 
   bool get isAuthenticated => _user != null;
 
-  authProvider() {
-    firebaseAuth.authStateChanges().listen((User? user) {
-      _user = user;
-      notifyListeners();
-    });
-  }
+  // authProvider() {
+  //   firebaseAuth.authStateChanges().listen((User? user) {
+  //     _user = user;
+  //     notifyListeners();
+  //   });
+  // }
 
-  Future<UserCredential> loginWithEmailPassword(String email, password) async {
+  Future<String?> loginWithEmailPassword(String email, password) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      return userCredential;
+      // If login is successful, return null (no error)
+      if (userCredential.user != null) {
+        return null; // No error
+      }
+
+      // Return a message if login is unsuccessful (should not really get here)
+      return "Failed to log in";
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
     }
   }
 
-  Future<UserCredential> register(String email, password) async {
+  Future<void> register(String email, password) async {
     try {
       //create user
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
       // save user info into firestore
-      firestore.collection("Users").doc(userCredential.user!.uid).set({
+      await firestore.collection("Users").doc(userCredential.user!.uid).set({
         "uid": userCredential.user!.uid,
         "email": email,
       });
-      return userCredential;
+      await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
     }
   }
 
   Future<void> signOut() async {
-    return await firebaseAuth.signOut();
+    await firebaseAuth.signOut();
+    notifyListeners();
   }
 }

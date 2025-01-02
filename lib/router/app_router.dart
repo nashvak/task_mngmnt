@@ -36,10 +36,20 @@ class AppRoutes {
     redirect: (context, state) {
       final authProvider = Provider.of<AuthService>(context, listen: false);
       final isAuthenticated = authProvider.isAuthenticated;
-      final isLoggingIn = state.location == AppRoutes.signup;
-      if (!isAuthenticated && !isLoggingIn) return AppRoutes.signup;
-      if (isAuthenticated && isLoggingIn) return AppRoutes.home;
-      return null; // No redirection
+      // if (isAuthenticated) {
+      //   if (state.fullPath == AppRoutes.login ||
+      //       state.fullPath == AppRoutes.signup) {
+      //     return AppRoutes.home;
+      //   }
+      // } else {
+      //   if (state.fullPath != AppRoutes.login &&
+      //       state.fullPath != AppRoutes.signup) {
+      //     return AppRoutes.login;
+      //   }
+      // }
+      // return null;
+      if (isAuthenticated == false) return AppRoutes.login;
+      return null;
     },
   );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmanagement_firebase/router/app_router.dart';
+import 'package:taskmanagement_firebase/Views/Auth/homepage.dart';
+import 'package:taskmanagement_firebase/Views/Auth/signup_page.dart';
 import 'package:taskmanagement_firebase/services/auth_service.dart';
 import 'package:taskmanagement_firebase/widgets/custom_button.dart';
 import 'package:taskmanagement_firebase/widgets/custom_textfield.dart';
@@ -46,10 +46,20 @@ class LoginPage extends StatelessWidget {
               text: 'Login',
               ontap: () async {
                 try {
-                  await context.read<AuthService>().loginWithEmailPassword(
-                        emailController.text.trim(),
-                        passwordController.text.trim(),
-                      );
+                  final error =
+                      await context.read<AuthService>().loginWithEmailPassword(
+                            emailController.text.trim(),
+                            passwordController.text.trim(),
+                          );
+                  if (error != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(error)),
+                    );
+                  } else {
+                    // context.go(AppRoutes.home);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  }
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(e.toString())),
@@ -65,7 +75,11 @@ class LoginPage extends StatelessWidget {
               children: [
                 const Text("Not a member? "),
                 GestureDetector(
-                  onTap: () => context.push(AppRoutes.signup),
+                  // onTap: () => context.go(AppRoutes.signup),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignupPage()));
+                  },
                   child: const Text(
                     "Register now",
                     style: TextStyle(fontWeight: FontWeight.bold),
