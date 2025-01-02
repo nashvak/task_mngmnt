@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmanagement_firebase/Views/Auth/editpage.dart';
-import 'package:taskmanagement_firebase/Views/add_data.dart';
+import 'package:taskmanagement_firebase/Views/Task/editpage.dart';
+import 'package:taskmanagement_firebase/Views/Task/add_data.dart';
 import 'package:taskmanagement_firebase/model/task_model.dart';
 import 'package:taskmanagement_firebase/services/data_provider.dart';
 import 'package:taskmanagement_firebase/widgets/mydrawer.dart';
@@ -17,7 +17,10 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tasks"),
+        title: const Text(
+          "Tasks",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
       ),
       drawer: const MyDrawer(),
       body: Center(
@@ -38,7 +41,10 @@ class HomePage extends StatelessWidget {
 
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return const Center(
-                    child: Text('No tasks available for your account.'));
+                    child: Text(
+                  'No tasks added',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ));
               }
               final tasks = snapshot.data!.docs;
               return Padding(
@@ -49,17 +55,21 @@ class HomePage extends StatelessWidget {
                     final task = tasks[index];
                     final taskData = Task.fromMap(task.data());
 
-                    return Container(
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 249, 244, 244),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border(
-                              left: BorderSide(
-                                  color: taskData.isCompleted == false
-                                      ? Colors.red
-                                      : Colors.green,
-                                  width: 6))),
+                        color: const Color.fromARGB(255, 249, 244, 244),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border(
+                          left: BorderSide(
+                            color: taskData.isCompleted
+                                ? Colors.green
+                                : Colors.red,
+                            width: 6,
+                          ),
+                        ),
+                      ),
                       child: Column(
                         children: [
                           ListTile(
@@ -71,9 +81,6 @@ class HomePage extends StatelessWidget {
                                               task: taskData,
                                             )));
                               },
-                              // leading: Checkbox(
-                              //     value: taskData.isCompleted,
-                              //     onChanged: (value) {}),
                               title: Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: Text(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmanagement_firebase/Views/splash.dart';
+import 'package:taskmanagement_firebase/Views/splash_screen/splash.dart';
 import 'package:taskmanagement_firebase/services/auth_service.dart';
 import 'package:taskmanagement_firebase/services/data_provider.dart';
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       // routerConfig: AppRoutes.router,
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       title: 'Task management',
       home: SplashScreen(),
     );

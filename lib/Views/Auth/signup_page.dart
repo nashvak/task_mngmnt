@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskmanagement_firebase/Views/Auth/homepage.dart';
+import 'package:taskmanagement_firebase/Views/Task/homepage.dart';
 import 'package:taskmanagement_firebase/Views/Auth/login_page.dart';
 import 'package:taskmanagement_firebase/services/auth_service.dart';
 import 'package:taskmanagement_firebase/widgets/custom_button.dart';
@@ -22,7 +22,10 @@ class SignupPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Register"),
+                const Text(
+                  "Register",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -50,37 +53,45 @@ class SignupPage extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                CustomButton(
-                  text: Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
-                  ),
-                  ontap: () async {
-                    if (formKey.currentState!.validate()) {
-                      if (passwordController.text ==
-                          confirmPassController.text) {
-                        try {
-                          await context.read<AuthService>().register(
-                                emailController.text,
-                                passwordController.text,
-                              );
-                          // context.go(AppRoutes.home);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        } catch (e) {
+                Consumer<AuthService>(builder: (context, provider, _) {
+                  return CustomButton(
+                    text: provider.registerLoading
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            "Register",
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
+                    ontap: () async {
+                      if (formKey.currentState!.validate()) {
+                        if (passwordController.text ==
+                            confirmPassController.text) {
+                          try {
+                            await provider.register(
+                              emailController.text,
+                              passwordController.text,
+                            );
+                            // context.go(AppRoutes.home);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()));
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.toString())),
+                            );
+                          }
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())),
-                          );
+                              const SnackBar(
+                                  content: Text('Password must be same')));
                         }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Fill the fields')));
                       }
-                    } else {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text('Empty')));
-                    }
-                  },
-                ),
+                    },
+                  );
+                }),
                 const SizedBox(
                   height: 25,
                 ),

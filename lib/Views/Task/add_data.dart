@@ -21,12 +21,15 @@ class _AddDataScreenState extends State<AddDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Data"),
+        title: const Text("Add Task"),
       ),
       body: Form(
         key: addformKey,
         child: Column(
           children: [
+            const SizedBox(
+              height: 20,
+            ),
             CustomTextfield(
                 text: "Title", controller: nameController, obscure: false),
             const SizedBox(
@@ -54,6 +57,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                         discriptionController.clear();
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text("Task Added")));
+                        Navigator.pop(context);
                       });
                     }
                   },

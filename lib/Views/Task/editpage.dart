@@ -41,8 +41,8 @@ class _EditPageState extends State<EditPage> {
                       discription: contentController.text.trim(),
                       isCompleted: isCompleted);
                   await context.read<DataProvider>().updateTask(task).then((v) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Task updated")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Task updated")));
                   });
                 }
                 // else {
@@ -51,7 +51,7 @@ class _EditPageState extends State<EditPage> {
                 // }
               },
               padding: const EdgeInsets.all(0),
-              icon: Icon(
+              icon: const Icon(
                 Icons.save,
                 size: 33,
               ),
@@ -70,7 +70,7 @@ class _EditPageState extends State<EditPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Checkbox(
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           value: isCompleted,
                           onChanged: (value) {
                             setState(() {
@@ -78,34 +78,37 @@ class _EditPageState extends State<EditPage> {
                             });
                           },
                         ),
-                        Text(
+                        const Text(
                           "Add to Completed",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
-                    TextFormField(
-                      controller: titleController,
-                      // cursorColor: style.color,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 30),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Title',
-                        hintStyle: Theme.of(context)
+                    Hero(
+                      tag: 'task-title-${widget.task.taskId}',
+                      child: TextFormField(
+                        controller: titleController,
+                        // cursorColor: style.color,
+                        style: Theme.of(context)
                             .textTheme
-                            .titleSmall!
+                            .titleMedium!
                             .copyWith(fontSize: 30),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Title',
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 30),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Title cannot be empty';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Title cannot be empty';
-                        }
-                        return null;
-                      },
                     ),
                     TextFormField(
                       controller: contentController,

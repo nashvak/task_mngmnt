@@ -17,7 +17,7 @@ class CustomTextfield extends StatelessWidget {
       child: TextFormField(
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Null value";
+            return "Please fill the field";
           }
           return null;
         },

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
-import 'package:taskmanagement_firebase/Views/Auth/homepage.dart';
+import 'package:lottie/lottie.dart';
+import 'package:taskmanagement_firebase/Views/Task/homepage.dart';
 import 'package:taskmanagement_firebase/Views/Auth/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,9 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text("Welcome"),
+        child: Lottie.asset('assets/splash.json',
+            width: 200, height: 200, fit: BoxFit.cover),
       ),
     );
   }
